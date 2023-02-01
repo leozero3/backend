@@ -16,9 +16,15 @@ class ServeHandler {
     // http://localhost:8080/query?nome=leo
     router.get('/query', (Request req) {
       String? nome = req.url.queryParameters['nome'];
-      return Response.ok('Query eh: $nome');
+      String? idade = req.url.queryParameters['idade'];
+      return Response.ok('Query eh: $nome , idade $idade');
     });
 
+    router.post('/login', (Response req) async {
+      var result = await req.readAsString();
+
+      return Response.ok(result);
+    });
     return router;
   }
 }
