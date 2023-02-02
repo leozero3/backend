@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -20,10 +21,18 @@ class ServeHandler {
       return Response.ok('Query eh: $nome , idade $idade');
     });
 
-    router.post('/login', (Response req) async {
+    router.post('/logado', (Request req) async {
       var result = await req.readAsString();
+      Map json = jsonDecode(result);
 
-      return Response.ok(result);
+      var usuario = json['usuario'];
+      var senha = json['senha'];
+
+      if (usuario == 'admin' && senha == '123') {
+        return Response.ok('Bem vindo $usuario');
+      } else {
+        return Response.forbidden('Acesso negado');
+      }
     });
     return router;
   }

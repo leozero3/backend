@@ -6,7 +6,7 @@ import 'server_handler.dart';
 void main() async {
   var _server = ServeHandler();
 
-  final server = await shelf_io.serve(_server.handler, '192.168.0.122', 8080);
+  final server = await shelf_io.serve(_server.handler, 'localhost', 8087);
 
-  print('http://localhost:8080');
+  print('http://localhost:8087');
 }
