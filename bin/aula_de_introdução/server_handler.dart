@@ -6,8 +6,16 @@ class ServeHandler {
   Handler get handler {
     final router = Router();
 
+    // router.get('/', (Request request) {
+    //   return Response(200, body: 'Primeira rota');
+    // });
+
     router.get('/', (Request request) {
-      return Response(200, body: 'Primeira rota');
+      return Response(
+        200,
+        body: '<h1>Primeira rota</h1>',
+        headers: {'content-type': 'text/html'},
+      );
     });
 
     router.get('/ola/mundo/<usuario>', (Request req, String usuario) {
@@ -21,7 +29,7 @@ class ServeHandler {
       return Response.ok('Query eh: $nome , idade $idade');
     });
 
-    router.post('/logado', (Request req) async {
+    router.post('/login', (Request req) async {
       var result = await req.readAsString();
       Map json = jsonDecode(result);
 
@@ -29,7 +37,9 @@ class ServeHandler {
       var senha = json['senha'];
 
       if (usuario == 'admin' && senha == '123') {
-        return Response.ok('Bem vindo $usuario');
+        Map result = {'token': 'token123', 'user_id': 1};
+        var jsonResponse = jsonEncode(result);
+        return Response.ok(jsonResponse, headers: {'content-type':"application/json"});
       } else {
         return Response.forbidden('Acesso negado');
       }
