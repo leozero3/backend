@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class NoticiaModel {
   final int id;
@@ -21,4 +23,29 @@ class NoticiaModel {
   String toString() {
     return 'NoticiaModel(id: $id, titulo: $titulo, descricao: $descricao, imagem: $imagem, dtPublicacao: $dtPublicacao, dtAttualizacao: $dtAttualizacao)';
   }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'titulo': titulo,
+      'descricao': descricao,
+      'imagem': imagem,
+      'dtPublicacao': dtPublicacao.millisecondsSinceEpoch,
+      'dtAttualizacao': dtAttualizacao?.millisecondsSinceEpoch,
+    };
+  }
+
+  factory NoticiaModel.fromMap(Map map) {
+    return NoticiaModel(
+      map['id'] ?? '',
+      map['titulo'],
+      map['descricao'] ,
+      map['imagem'] ,
+      DateTime.fromMillisecondsSinceEpoch(map['dtPublicacao']),
+      map['dtAttualizacao'] != null ? DateTime.fromMillisecondsSinceEpoch(map['dtAttualizacao']) : null,
+    );
+  }
+
+  
+
 }
